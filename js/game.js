@@ -22,19 +22,23 @@
     clues: [
       {
         badge: 'Inicio',
-        title: 'El Guardián del Sacré Coeur',
+        title: 'El Pergamino del Guardián',
         story:
-          'Cuentan que, entre los muros del Sacré Coeur, un antiguo guardián escondió un tesoro. ' +
-          'Para llegar a él hay que reunir tres sellos. Acabás de encontrar el primero: ¡la leyenda comienza!',
+          'Hace más de cien años, en una noche de tormenta, el hermano Étienne, guardián del Sacré Coeur, ' +
+          'escondió algo tan valioso que nunca se animó a decir qué era. Antes de desaparecer dejó este pergamino, ' +
+          'cerrado con lacre rojo y una advertencia: «Solo quien reúna los tres sellos podrá abrir mi cofre». ' +
+          'Desde entonces nadie lo logró… hasta hoy. El primer sello ya es tuyo.',
         next:
           'Buscá un marcador con una LLAVE dibujada. Pista: está en un lugar por donde pasa todo el mundo, ' +
           'entre un piso y otro.',
       },
       {
         badge: 'Sello 2',
-        title: 'La Llave Oxidada',
+        title: 'La Brújula y la Llave',
         story:
-          'La brújula del guardián señala el camino y esta llave abre el cofre… pero todavía falta el último sello.',
+          'Esta brújula no apunta al norte: apunta al tesoro. El guardián la forjó con el oro de su propio anillo ' +
+          'y escondió junto a ella la única llave capaz de abrir el cofre. Pero la llave sola no alcanza: ' +
+          'la cerradura tiene forma de corazón y no cede sin el último sello. La aguja ya empezó a girar… seguila.',
         next:
           'Buscá un marcador con un CORAZÓN y una cruz. Pista: el Sacré Coeur es el “Sagrado Corazón”, ' +
           'y el último sello late en el corazón del edificio, donde se cruzan todos los caminos.',
@@ -42,7 +46,10 @@
       {
         badge: 'Tesoro',
         title: '¡El Cofre del Guardián!',
-        story: 'El corazón del edificio guardaba el mayor de los tesoros. ¡El cofre se abre!',
+        story:
+          'La llave gira, el último sello encaja y el cofre cruje después de más de un siglo de silencio. ' +
+          'Adentro brilla el oro del hermano Étienne… y una nota escrita a mano: «El verdadero tesoro nunca ' +
+          'estuvo en este cofre, sino en quienes se animaron a buscarlo juntos». ¡La leyenda es tuya!',
         next: '',
       },
     ],
