@@ -1,0 +1,255 @@
+/* Tesoro del Sacré Coeur · estilos de la interfaz (la escena 3D está en index.html) */
+:root {
+  --bg: rgba(27, 18, 8, 0.92);
+  --bg-solid: #1b1208;
+  --gold: #e0b84c;
+  --gold-soft: #f3dc9a;
+  --paper: #f6ecd2;
+  --red: #c8102e;
+  --ink: #fdf6e3;
+  --muted: #c9b78a;
+  --radius: 18px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+/* OJO: el fondo negro va solo en <html>. Si <body> tuviera fondo, taparía el
+   video de la cámara que AR.js inserta detrás de todo (z-index negativo). */
+html { background: #000; }
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Botón "entrar a VR / pantalla completa" de A-Frame: no se usa en este juego */
+.a-enter-vr, .a-enter-vr-button, .a-enter-ar, .a-enter-ar-button { display: none !important; }
+
+/* ---------- HUD ---------- */
+.hud {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  padding: calc(10px + var(--safe-top)) 12px 10px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.65), rgba(0,0,0,0));
+  pointer-events: none;
+}
+.hud-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.hud-right { display: flex; align-items: center; gap: 8px; pointer-events: auto; }
+.brand {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.3px;
+  color: var(--gold-soft);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+.timer {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.55);
+  border: 1px solid rgba(224,184,76,0.5);
+}
+.icon-btn {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(224,184,76,0.5);
+  background: rgba(0,0,0,0.55);
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+.pips { display: flex; gap: 8px; margin-top: 10px; }
+.pip {
+  flex: 1;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.25);
+  border: 1px solid rgba(0,0,0,0.4);
+  transition: background 0.4s, box-shadow 0.4s;
+}
+.pip.on {
+  background: linear-gradient(90deg, #f3dc9a, #e0b84c);
+  box-shadow: 0 0 10px rgba(224,184,76,0.9);
+}
+
+/* ---------- Toast ---------- */
+.toast {
+  position: fixed;
+  left: 50%; top: calc(86px + var(--safe-top));
+  transform: translate(-50%, -12px);
+  z-index: 60;
+  max-width: min(92vw, 460px);
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: var(--bg);
+  border: 1px solid rgba(224,184,76,0.6);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.35;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s, transform 0.25s;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* ---------- Botón flotante ---------- */
+.fab {
+  position: fixed;
+  right: 14px;
+  bottom: calc(18px + var(--safe-bottom));
+  z-index: 55;
+  padding: 11px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(224,184,76,0.7);
+  background: var(--bg);
+  color: var(--gold-soft);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* ---------- Tarjeta de pista ---------- */
+.card {
+  position: fixed;
+  left: 50%; bottom: 0;
+  transform: translate(-50%, 0);
+  z-index: 70;
+  width: min(100%, 560px);
+  max-height: 62vh;
+  overflow-y: auto;
+  padding: 18px 18px calc(18px + var(--safe-bottom));
+  border-radius: var(--radius) var(--radius) 0 0;
+  background: var(--bg);
+  border: 1px solid rgba(224,184,76,0.55);
+  border-bottom: none;
+  box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+  animation: slide-up 0.35s ease-out;
+}
+@keyframes slide-up { from { transform: translate(-50%, 40px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+.card-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.badge {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--gold);
+  color: #2a1a05;
+  font-weight: 800;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+.revisit { font-size: 12px; color: var(--muted); }
+.card h2 {
+  margin: 4px 0 8px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 22px;
+  color: var(--gold-soft);
+}
+.card p { margin: 0 0 12px; font-size: 15px; line-height: 1.5; }
+.next {
+  margin: 4px 0 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(224,184,76,0.14);
+  border: 1px dashed rgba(224,184,76,0.7);
+}
+.next-label { font-weight: 800; font-size: 13px; color: var(--gold); margin-bottom: 4px; }
+.next p { margin: 0; }
+
+/* ---------- Botones ---------- */
+.btn {
+  display: block;
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.btn + .btn { margin-top: 10px; }
+.btn-primary { background: linear-gradient(180deg, #f3dc9a, #e0b84c); color: #2a1a05; }
+.btn-primary:active { transform: translateY(1px); }
+.btn-ghost { background: transparent; color: var(--gold-soft); border-color: rgba(224,184,76,0.6); }
+
+/* ---------- Pantallas completas ---------- */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: radial-gradient(circle at 50% 30%, rgba(60,38,12,0.96), rgba(12,8,3,0.98));
+  overflow-y: auto;
+}
+.overlay-finale { background: radial-gradient(circle at 50% 30%, rgba(80,52,10,0.93), rgba(12,8,3,0.96)); }
+.overlay canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.panel {
+  position: relative;
+  width: min(100%, 460px);
+  text-align: center;
+  padding: 6px 4px;
+}
+.panel h1 {
+  margin: 6px 0 4px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 30px;
+  line-height: 1.15;
+  color: var(--gold-soft);
+}
+.subtitle { margin: 0 0 16px; color: var(--muted); font-size: 15px; line-height: 1.45; }
+.crest { font-size: 40px; letter-spacing: 6px; color: var(--gold); text-shadow: 0 0 18px rgba(224,184,76,0.6); }
+.trophy { font-size: 64px; line-height: 1.1; }
+.steps {
+  text-align: left;
+  margin: 0 0 16px;
+  padding: 14px 16px 14px 36px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.06);
+  font-size: 15px;
+  line-height: 1.5;
+}
+.steps li + li { margin-top: 6px; }
+.progress-note {
+  margin: 0 0 14px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(224,184,76,0.16);
+  color: var(--gold-soft);
+  font-size: 14px;
+}
+.tip { margin: 14px 0 0; font-size: 12.5px; line-height: 1.45; color: var(--muted); }
+.final-time { font-size: 20px; margin: 0 0 8px; }
+.team { margin: 0 0 14px; color: var(--muted); font-size: 14px; }
+
+/* ---------- Debug (?debug=1) ---------- */
+.debug {
+  position: fixed;
+  left: 8px; bottom: calc(8px + var(--safe-bottom));
+  z-index: 100;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.75);
+  color: #9dffb0;
+  font: 12px/1.35 ui-monospace, Menlo, Consolas, monospace;
+  white-space: pre;
+  pointer-events: none;
+}
+
+@media (min-width: 700px) {
+  .card { bottom: 18px; border-radius: var(--radius); border-bottom: 1px solid rgba(224,184,76,0.55); }
+}
